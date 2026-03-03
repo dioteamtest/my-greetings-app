@@ -16,22 +16,37 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
+        cache-dependency-path:
+          backend/package-lock.json
+          frontend/package-lock.json
 
-      - name: Backend - install
-        working-directory: backend
-        run: npm ci
+                      
 
-      - name: Backend - test
-        working-directory: backend
-        run: npm test
+  # ---- Backend ----
+  - name: Backend - install
+    working-directory: backend
+    run: npm ci
 
-      - name: Frontend - install
-        working-directory: frontend
-        run: npm ci
+  - name: Backend - test
+    working-directory: backend
+    run: npm test
 
-      - name: Frontend - build
-        working-directory: frontend
-        env:
-          VITE_API_URL: http://localhost:3000
-          VITE_API_KEY: dummy
-        run: npm run build
+  # ---- Frontend ----
+  - name: Frontend - install
+    working-directory: frontend
+    run: npm ci
+
+  - name: Frontend - build
+    working-directory: frontend
+    env:
+      VITE_API_URL: http://localhost:3000
+      VITE_API_KEY: dummy
+    run: npm run build
+
+  # ---- Docker build checks ----
+  - name: Docker build backend
+    run: docker build -t backend-ci ./backend
+
+  - name: Docker build frontend
+    run: docker build -t frontend-ci --build-arg VITE_API_URL=http://localhost:3000 --build-arg VITE_API_KEY=dummy ./frontend
