@@ -1,0 +1,13 @@
+:root { font-family: system-ui, Arial, sans-serif; }
+body { margin: 0; }
+.container { min-height: 100vh; display: grid; place-items: center; }
+.card {
+  width: min(520px, 92vw);
+  padding: 24px;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 14px;
+  text-align: center;
+}
+button { padding: 12px 16px; border: 0; border-radius: 10px; cursor: pointer; }
+.greeting { margin-top: 16px; font-size: 28px; font-weight: 700; }
+.small { opacity: .7; margin-top: 8px; font-size: 12px; }
